@@ -7,6 +7,8 @@ services:
     command: [ "--config=/etc/otel-collector.yaml" ]
     volumes:
       - ./config/otel-collector.yaml:/etc/otel-collector.yaml
+    ports:
+      - 4317:4317
 
   tempo:
     image: grafana/tempo:latest
@@ -25,6 +27,7 @@ services:
       - --config.file=/etc/prometheus.yaml
       - --web.enable-remote-write-receiver
       - --enable-feature=exemplar-storage
+      - --log.level=debug
     volumes:
       - ./config/prometheus.yaml:/etc/prometheus.yaml
     ports:
@@ -39,5 +42,9 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=true
       - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST=10.1.21.18:25
+      - GF_SMTP_FROM_NAME=grafana
+      - GF_SMTP_FROM_ADDRESS=grafana@afstores.com
     ports:
       - "3000:3000"
