@@ -15,10 +15,9 @@ services:
       - ./config/tempo.yaml:/etc/tempo.yaml
       - ./tempo-data:/tmp/tempo
     ports:
-      #- "14268"  # jaeger ingest
-      - "3200"   # tempo
+      - "3200"  # tempo
       - "4317"  # otlp grpc
-      #- "4318"  # otlp http
+      - "4318"  # otlp http
 
   prometheus:
     image: prom/prometheus:latest
